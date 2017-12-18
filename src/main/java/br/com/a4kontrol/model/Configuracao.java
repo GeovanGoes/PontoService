@@ -1,11 +1,18 @@
 package br.com.a4kontrol.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Configuracao 
+public class Configuracao implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8329876932030113966L;
+	
 	@Id	
 	private String chave;
 	private String valor;

@@ -23,7 +23,7 @@ public class ResultBaseFactoryTO implements Serializable
 	 */
 	private static final String RESULT_BASE_FACTORY_ERROR_MESSAGES = "ResultBaseFactoryErrorMessages";
 	private static final String RESULT_BASE_FACTORY_SUCCESS = "ResultBaseFactorySuccess";
-	private static final String RESULT_BASE_FACTORY_RESULT = "ResultBaseFactoryErrorResult";
+	private static final String RESULT_BASE_FACTORY_RESULT = "ResultBaseFactoryResult";
 	
 	private static final String SERVICE_KEY_MESSAGE = "message";
 	private static final String SERVICE_KEY_EXCEPTION = "exception";

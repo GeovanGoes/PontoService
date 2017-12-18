@@ -2,6 +2,7 @@ package br.com.a4kontrol.controller;
 
 import br.com.a4kontrol.model.Configuracao;
 import br.com.a4kontrol.service.ConfiguracaoService;
+import br.com.a4kontrol.to.ResultBaseFactoryTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,4 +22,10 @@ public class ConfiguracaoController
 	{
 		return service.list();
 	}
+	
+/*	@RequestMapping(method=RequestMethod.POST, name="/configuracoes")
+	public @ResponseBody ResultBaseFactoryTO insertConfiguracao (Long idUsuari)
+	{
+		return new ResultBaseFactoryTO();
+	}*/
 }
