@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -22,13 +23,13 @@ public class Usuario implements Serializable
 	
 	private String userName;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Configuracao> configuracoes;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Feriado> feriados;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Lancamento> lancamentos;
 
 	/**

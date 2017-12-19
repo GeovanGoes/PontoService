@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Configuracao implements Serializable
@@ -16,6 +18,9 @@ public class Configuracao implements Serializable
 	@Id	
 	private String chave;
 	private String valor;
+	
+	@ManyToOne
+	private Usuario usuario;
 	
 	public String getChave() 
 	{

@@ -3,8 +3,12 @@
  */
 package br.com.a4kontrol.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import br.com.a4kontrol.model.Usuario;
 import br.com.a4kontrol.repository.UsuarioRepository;
+import br.com.a4kontrol.to.ResultBaseFactoryTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,27 @@ public class UsuarioService
 	@Autowired
 	private UsuarioRepository repository;
 	
+	
+	public ResultBaseFactoryTO list()
+	{
+		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
+		
+		Iterable<Usuario> findAll = repository.findAll();
+		if (findAll != null)
+		{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("users", findAll);
+			result.setSuccess(map);
+		}
+		
+		return result;
+	}
+	
+	/***
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Usuario getUsuario(Long id)
 	{
 		return repository.findOne(id);
@@ -30,18 +55,32 @@ public class UsuarioService
 	 * @param userName
 	 * @return
 	 */
-	public boolean inserir(String userName)
+	public ResultBaseFactoryTO inserir(String userName)
 	{		
-		Usuario exists = repository.getByUserName(userName);
+		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
 		
-		if (exists == null)
+		if (userName != null && !userName.isEmpty())
 		{
-			Usuario usuario = new Usuario();
-			usuario.setUserName(userName);
-			repository.save(usuario);
-			return true;
+			Usuario exists = repository.getByUserName(userName);
+			
+			if (exists == null)
+			{
+				Usuario usuario = new Usuario();
+				usuario.setUserName(userName);
+				repository.save(usuario);
+				result.setSuccess(new HashMap<String, Object>());
+			}
+			else
+			{
+				result.addErrorMessage("duplicated-userName", "Nome de usuário já usado.");
+			}
 		}
-		return false;
+		else
+		{
+			result.addErrorMessage("userName-invalid", "Nome de usuário inválido.");
+		}
+		
+		return result;
 	}
 	
 	/***

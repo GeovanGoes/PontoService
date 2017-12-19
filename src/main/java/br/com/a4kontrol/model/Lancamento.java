@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Lancamento implements Serializable
@@ -21,6 +22,9 @@ public class Lancamento implements Serializable
 	
 	private Date dataLancamento;
 
+	@ManyToOne
+	private Usuario usuario;
+	
 	/**
 	 * @return the id
 	 */

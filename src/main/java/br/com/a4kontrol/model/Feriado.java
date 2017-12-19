@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Feriado implements Serializable
@@ -20,8 +21,15 @@ public class Feriado implements Serializable
 	@GeneratedValue
 	private Long id;
 	
-	
 	private Date data;
+	
+	@ManyToOne
+	private Usuario usuario;
+	
+	public Feriado(Date data) {
+		super();
+		this.data = data;
+	}
 
 
 	/**
