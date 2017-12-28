@@ -37,7 +37,7 @@ public class LancamentoService
 			if (user != null)
 			{
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("lancamentos", user.getLancamentos());
+				//map.put("lancamentos", user.getLancamentos());
 				result.setSuccess(map);
 			}
 			else
@@ -62,7 +62,7 @@ public class LancamentoService
 			
 			if (user != null)
 			{
-				user.getFeriados().add(new Feriado(data));
+				//user.getFeriados().add(new Feriado(data));
 				usuarioRepository.save(user);
 				
 				result.setSuccess(new HashMap<String, Object>());

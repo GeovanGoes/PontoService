@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping(value="/feriados")
-public class FeriadoController 
+@RequestMapping(value = "/feriados")
+public class FeriadoController
 {
 
 }

@@ -3,11 +3,14 @@ package br.com.a4kontrol.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.CollectionId;
 
 @Entity
 public class Usuario implements Serializable 
@@ -19,18 +22,10 @@ public class Usuario implements Serializable
 
 	@Id
 	@GeneratedValue
+	@Column(name="usuario_id")
 	private Long id;
 	
 	private String userName;
-	
-	@ManyToMany
-	private List<Configuracao> configuracoes;
-	
-	@ManyToMany
-	private List<Feriado> feriados;
-	
-	@ManyToMany
-	private List<Lancamento> lancamentos;
 
 	/**
 	 * @return the id
@@ -59,46 +54,4 @@ public class Usuario implements Serializable
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
-	/**
-	 * @return the configuracoes
-	 */
-	public List<Configuracao> getConfiguracoes() {
-		return configuracoes;
-	}
-
-	/**
-	 * @param configuracoes the configuracoes to set
-	 */
-	public void setConfiguracoes(List<Configuracao> configuracoes) {
-		this.configuracoes = configuracoes;
-	}
-
-	/**
-	 * @return the feriados
-	 */
-	public List<Feriado> getFeriados() {
-		return feriados;
-	}
-
-	/**
-	 * @param feriados the feriados to set
-	 */
-	public void setFeriados(List<Feriado> feriados) {
-		this.feriados = feriados;
-	}
-
-	/**
-	 * @return the lancamentos
-	 */
-	public List<Lancamento> getLancamentos() {
-		return lancamentos;
-	}
-
-	/**
-	 * @param lancamentos the lancamentos to set
-	 */
-	public void setLancamentos(List<Lancamento> lancamentos) {
-		this.lancamentos = lancamentos;
-	}	
 }

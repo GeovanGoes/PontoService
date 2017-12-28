@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -24,6 +25,7 @@ public class Feriado implements Serializable
 	private Date data;
 	
 	@ManyToOne
+	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
 	public Feriado(Date data) {

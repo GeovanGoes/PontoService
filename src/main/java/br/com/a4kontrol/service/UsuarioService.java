@@ -18,28 +18,27 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class UsuarioService 
+public class UsuarioService
 {
-	
+
 	@Autowired
 	private UsuarioRepository repository;
-	
-	
+
 	public ResultBaseFactoryTO list()
 	{
 		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
-		
+
 		Iterable<Usuario> findAll = repository.findAll();
 		if (findAll != null)
 		{
-			Map<String,Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("users", findAll);
 			result.setSuccess(map);
 		}
-		
+
 		return result;
 	}
-	
+
 	/***
 	 * 
 	 * @param id
@@ -49,20 +48,20 @@ public class UsuarioService
 	{
 		return repository.findOne(id);
 	}
-	
+
 	/***
 	 * 
 	 * @param userName
 	 * @return
 	 */
 	public ResultBaseFactoryTO inserir(String userName)
-	{		
+	{
 		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
-		
+
 		if (userName != null && !userName.isEmpty())
 		{
 			Usuario exists = repository.getByUserName(userName);
-			
+
 			if (exists == null)
 			{
 				Usuario usuario = new Usuario();
@@ -79,10 +78,10 @@ public class UsuarioService
 		{
 			result.addErrorMessage("userName-invalid", "Nome de usuário inválido.");
 		}
-		
+
 		return result;
 	}
-	
+
 	/***
 	 * 
 	 * @param usuario

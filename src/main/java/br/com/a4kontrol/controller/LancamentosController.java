@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping(value="/lancamentos")
+@RequestMapping(value = "/lancamentos")
 public class LancamentosController
 {
-	
+
 	@Autowired
 	LancamentoService lancamentoService;
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ResultBaseFactoryTO obterPorUsuario(String userName)
 	{
 		return lancamentoService.obterPorUsuario(userName);
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResultBaseFactoryTO inserir(String userName, Date data)
 	{
 		return lancamentoService.inserir(userName, data);

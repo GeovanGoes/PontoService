@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping(value="/usuarios")
-public class UsuarioController 
+@RequestMapping(value = "/usuarios")
+public class UsuarioController
 {
-	
+
 	@Autowired
 	private UsuarioService service;
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResultBaseFactoryTO inserirUsuario(String userName)
 	{
 		return service.inserir(userName);
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ResultBaseFactoryTO listar()
 	{
 		return service.list();
