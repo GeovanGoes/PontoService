@@ -6,6 +6,7 @@ package br.com.a4kontrol.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +24,7 @@ public class ValorDominio implements Serializable
 	private static final long serialVersionUID = -6244257539223596968L;
 
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	@ManyToOne
@@ -31,8 +33,15 @@ public class ValorDominio implements Serializable
 
 	private String valor;
 
-	private String descricao;
-
+	public ValorDominio()
+	{}
+	
+	public ValorDominio(Dominio dominio, String valor)
+	{
+		this.dominio = dominio;
+		this.valor = valor;
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -82,22 +91,5 @@ public class ValorDominio implements Serializable
 	public void setValor(String valor)
 	{
 		this.valor = valor;
-	}
-
-	/**
-	 * @return the descricao
-	 */
-	public String getDescricao()
-	{
-		return descricao;
-	}
-
-	/**
-	 * @param descricao
-	 *            the descricao to set
-	 */
-	public void setDescricao(String descricao)
-	{
-		this.descricao = descricao;
 	}
 }

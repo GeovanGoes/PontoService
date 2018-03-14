@@ -28,9 +28,20 @@ public class Feriado implements Serializable
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
+	public Feriado ()
+	{
+	}
+	
 	public Feriado(Date data) {
 		super();
 		this.data = data;
+	}
+	
+	public Feriado(Date data, Usuario user)
+	{
+		super();
+		this.data = data;
+		this.usuario = user;
 	}
 
 

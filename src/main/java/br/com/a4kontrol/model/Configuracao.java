@@ -23,6 +23,16 @@ public class Configuracao implements Serializable
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
+	public Configuracao(){}
+	
+	public Configuracao(String chave, String valor, Usuario usuario)
+	{
+		super();
+		this.chave = chave;
+		this.valor = valor;
+		this.usuario = usuario;
+	}
+
 	public String getChave()
 	{
 		return chave;

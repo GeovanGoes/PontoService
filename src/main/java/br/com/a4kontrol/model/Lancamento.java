@@ -27,6 +27,25 @@ public class Lancamento implements Serializable
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 	
+	/***
+	 * 
+	 */
+	public Lancamento()
+	{
+		
+	}
+	
+	/***
+	 * 
+	 * @param data
+	 * @param usuario
+	 */
+	public Lancamento(Date data, Usuario usuario)
+	{
+		this.dataLancamento = data;
+		this.usuario = usuario;
+	}
+	
 	/**
 	 * @return the id
 	 */

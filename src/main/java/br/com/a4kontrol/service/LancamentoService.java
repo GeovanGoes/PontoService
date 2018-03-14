@@ -3,13 +3,16 @@
  */
 package br.com.a4kontrol.service;
 
-import br.com.a4kontrol.model.Feriado;
+import br.com.a4kontrol.authentication.util.SessionUtil;
+import br.com.a4kontrol.model.Lancamento;
 import br.com.a4kontrol.model.Usuario;
+import br.com.a4kontrol.repository.LancamentoRepository;
 import br.com.a4kontrol.repository.UsuarioRepository;
 import br.com.a4kontrol.to.ResultBaseFactoryTO;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,62 +25,97 @@ import org.springframework.stereotype.Service;
 @Service
 public class LancamentoService 
 {
-	
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
-	public ResultBaseFactoryTO obterPorUsuario(String userName)
+	@Autowired
+	LancamentoRepository repository;
+	
+	/***
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public ResultBaseFactoryTO obterPorUsuario()
 	{
 		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
 		
-		if (userName != null && !userName.trim().isEmpty())
-		{
-			Usuario user = usuarioRepository.getByUserName(userName);
-			
-			if (user != null)
-			{
-				Map<String, Object> map = new HashMap<String, Object>();
-				//map.put("lancamentos", user.getLancamentos());
-				result.setSuccess(map);
-			}
-			else
-			{
-				result.addErrorMessage("user-not-found", "Usuário não encontrado.");
-			}
+		Usuario usuario = usuarioRepository.getByUserName(SessionUtil.getUserNameAutheticatedUser());
+		
+		if (usuario != null)
+		{				
+			List<Lancamento> lancamentoByUsuario = repository.getLancamentoByUsuario(usuario);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("result", lancamentoByUsuario);
+			result.setSuccess(map);
 		}
 		else
 		{
-			result.addErrorMessage("username-invalid", "Nome de usuário inválido.");
+			result.addErrorMessage("user-not-found", "Usuário não encontrado.");
 		}
+		
 		return result;
 	}
 	
-	public ResultBaseFactoryTO inserir(String userName, Date data)
+	/***
+	 * 
+	 * @param userName
+	 * @param data
+	 * @return
+	 */
+	public ResultBaseFactoryTO inserir(Date data)
 	{
 		ResultBaseFactoryTO result = new ResultBaseFactoryTO();
 		
 		if (data != null)
 		{
-			Usuario user = usuarioRepository.getByUserName(userName);
+			Usuario usuario = usuarioRepository.getByUserName(SessionUtil.getUserNameAutheticatedUser());
 			
-			if (user != null)
+			if (usuario != null)
 			{
-				//user.getFeriados().add(new Feriado(data));
-				usuarioRepository.save(user);
+				boolean lancamentoExistente = existeLancamentoNesseDiaHorario(data, usuario);
 				
-				result.setSuccess(new HashMap<String, Object>());
+				if (!lancamentoExistente)
+				{
+					repository.save(new Lancamento(data, usuario));
+					result.setSuccess(new HashMap<String, Object>());
+				}
+				else
+				{
+					erroGenericoInsercaoLancamento(result);
+				}
 			}
 			else
 			{
-				result.addErrorMessage("user-not-found", "Usuário não encontrado.");
+				erroGenericoInsercaoLancamento(result);
 			}
 		}
 		else
 		{
-			result.addErrorMessage("date-null", "Data inválida.");
+			result.addErrorMessage("falha-insercao-lancamento-date-null", "Data inválida.");
 		}
 		
 		return result;
+	}
+
+	/**
+	 * @param result
+	 */
+	private void erroGenericoInsercaoLancamento(ResultBaseFactoryTO result)
+	{
+		result.addErrorMessage("falha-insercao-lancamento", "Não foi possível inserir esse lancamento.");
+	}
+
+	/**
+	 * @param data
+	 * @param usuario
+	 */
+	private boolean existeLancamentoNesseDiaHorario(Date data, Usuario usuario)
+	{
+		if (repository.getLancamentoByUsuarioAndDataLancamento(usuario, data) != null)
+			return true;
+		else
+			return false;
 	}
 
 }

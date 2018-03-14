@@ -3,7 +3,7 @@
  */
 package br.com.a4kontrol.repository;
 
-import br.com.a4kontrol.model.Usuario;
+import br.com.a4kontrol.model.Dominio;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,12 +11,12 @@ import org.springframework.data.repository.CrudRepository;
  * @author geovan.goes
  *
  */
-public interface UsuarioRepository extends CrudRepository<Usuario, Long>
+public interface DominioRepository extends CrudRepository<Dominio, Long>
 {
 	/***
 	 * 
-	 * @param userName
+	 * @param nome
 	 * @return
 	 */
-	Usuario getByUserName(String userName);
+	Dominio getDominioByNome(String nome);
 }

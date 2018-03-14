@@ -44,9 +44,32 @@ public class UsuarioService
 	 * @param id
 	 * @return
 	 */
-	public Usuario getUsuario(Long id)
+	public Usuario getUsuario(long id)
 	{
 		return repository.findOne(id);
+	}
+	
+	/***
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public Usuario getUsuario(String userName)
+	{
+		return repository.getByUserName(userName);
+	}
+	
+	public boolean usuarioExists (String userName)
+	{
+		Usuario usuario = getUsuario(userName);
+		if (usuario != null)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/***

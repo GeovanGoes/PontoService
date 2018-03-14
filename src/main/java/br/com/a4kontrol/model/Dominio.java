@@ -27,10 +27,19 @@ public class Dominio implements Serializable
 	@Column(name="dominio_id")
 	private Long id;
 	
-	private String valor;
-	
-	private String descricao;
+	private String nome;
 
+	
+	public Dominio()
+	{
+		
+	}
+	
+	public Dominio(String nome)
+	{
+		this.nome = nome;
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -48,34 +57,18 @@ public class Dominio implements Serializable
 	}
 
 	/**
-	 * @return the valor
+	 * @return the nome
 	 */
-	public String getValor()
+	public String getNome()
 	{
-		return valor;
+		return nome;
 	}
 
 	/**
-	 * @param valor the valor to set
+	 * @param nome the nome to set
 	 */
-	public void setValor(String valor)
+	public void setNome(String nome)
 	{
-		this.valor = valor;
-	}
-
-	/**
-	 * @return the descricao
-	 */
-	public String getDescricao()
-	{
-		return descricao;
-	}
-
-	/**
-	 * @param descricao the descricao to set
-	 */
-	public void setDescricao(String descricao)
-	{
-		this.descricao = descricao;
+		this.nome = nome;
 	}
 }
