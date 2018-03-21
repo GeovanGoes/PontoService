@@ -32,4 +32,13 @@ public interface LancamentoRepository extends CrudRepository<Lancamento, Long>
 	 */
 	Lancamento getLancamentoByUsuarioAndDataLancamento(Usuario usuario, Date dataLancamento);
 	
+	/***
+	 * 
+	 * @param usuario
+	 * @param inicio
+	 * @param fim
+	 * @return
+	 */
+	List<Lancamento> getLancamentosByUsuarioAndDataLancamentoBetween(Usuario usuario, Date inicio, Date fim);
+	
 }

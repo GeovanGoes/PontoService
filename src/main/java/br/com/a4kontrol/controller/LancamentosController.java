@@ -26,15 +26,29 @@ public class LancamentosController
 	@Autowired
 	LancamentoService lancamentoService;
 
+	/**
+	 * 
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ResultBaseFactoryTO obterPorUsuario()
 	{
 		return lancamentoService.obterPorUsuario();
 	}
 
+	/***
+	 * 
+	 * @param data
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResultBaseFactoryTO inserir(@DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date data)
 	{
 		return lancamentoService.inserir(data);
+	}
+	
+	public ResultBaseFactoryTO removerLancamento(@DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date data)
+	{
+		return lancamentoService.removerLancamento(data);
 	}
 }

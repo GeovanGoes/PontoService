@@ -38,6 +38,12 @@ public class FeriadoService
 	
 	/***
 	 * 
+	 */
+	@Autowired
+	private LancamentoService lancamentoService;
+	
+	/***
+	 * 
 	 * @param userName
 	 * @param data
 	 * @return
@@ -53,6 +59,9 @@ public class FeriadoService
 			boolean feriadoJaExiste = validarExistenciaDoFeriadoParaUsuario(usuario, data);
 			if (!feriadoJaExiste)
 			{
+				
+				//removerLancamentosDeUmDia(usuario, data);
+				
 				Feriado feriado = new Feriado(data, usuario);
 				repository.save(feriado);
 				
@@ -71,6 +80,8 @@ public class FeriadoService
 		return resultBaseFactoryTO;
 	}
 	
+	
+
 	/**
 	 * @param usuario
 	 * @param data
@@ -105,6 +116,31 @@ public class FeriadoService
 		{
 			resultBaseFactoryTO.addErrorMessage("falha-busca-feriados", "Não foi possível listar os feriados desse usuário.");
 		}
+		return resultBaseFactoryTO;
+	}
+
+	/**
+	 * @param date
+	 * @return
+	 */
+	public ResultBaseFactoryTO removerFeriado(Date date)
+	{
+		ResultBaseFactoryTO resultBaseFactoryTO = new ResultBaseFactoryTO();
+		
+		Usuario usuario = usuarioService.getUsuario(SessionUtil.getUserNameAutheticatedUser());
+		
+		Feriado feriadoByDataAndUsuario = repository.getFeriadoByDataAndUsuario(date, usuario);
+		
+		if (feriadoByDataAndUsuario != null)
+		{			
+			repository.delete(feriadoByDataAndUsuario);
+			resultBaseFactoryTO.setSuccess(new HashMap<String, Object>());
+		}
+		else
+		{
+			resultBaseFactoryTO.addErrorMessage("falha-remover-feriado", "Não foi possível remover o feriado.");
+		}
+		
 		return resultBaseFactoryTO;
 	}
 }

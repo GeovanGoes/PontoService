@@ -47,4 +47,15 @@ public class FeriadoController
 	{
 		return service.getAll();
 	}
+	
+	/***
+	 * 
+	 * @param date
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE)
+	public ResultBaseFactoryTO removerFeriado(@DateTimeFormat(pattern="yyyy-MM-dd") Date date)
+	{
+		return service.removerFeriado(date);
+	}
 }

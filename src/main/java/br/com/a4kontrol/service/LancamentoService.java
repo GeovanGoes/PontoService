@@ -10,6 +10,7 @@ import br.com.a4kontrol.repository.LancamentoRepository;
 import br.com.a4kontrol.repository.UsuarioRepository;
 import br.com.a4kontrol.to.ResultBaseFactoryTO;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -118,4 +119,44 @@ public class LancamentoService
 			return false;
 	}
 
+	/**
+	 * @param data
+	 * @return
+	 */
+	public ResultBaseFactoryTO removerLancamento(Date data)
+	{
+		ResultBaseFactoryTO baseFactoryTO = new ResultBaseFactoryTO();
+		Usuario usuario = usuarioRepository.getByUserName(SessionUtil.getUserNameAutheticatedUser());
+		Lancamento lancamentoByUsuarioAndDataLancamento = repository.getLancamentoByUsuarioAndDataLancamento(usuario, data);
+		
+		if (lancamentoByUsuarioAndDataLancamento != null)
+		{
+			repository.delete(lancamentoByUsuarioAndDataLancamento);
+			baseFactoryTO.setSuccess(new HashMap<>());
+		}
+		else
+		{
+			baseFactoryTO.addErrorMessage("falha-remover-lancamento", "Falha ao remover o lancamento.");
+		}
+		
+		return baseFactoryTO;
+	}
+
+	
+	/**
+	 * @param usuario
+	 * @param data
+	 */
+	private ResultBaseFactoryTO removerLancamentosDeUmDia(Usuario usuario, Date data)
+	{
+		
+		
+		Date fim = new Date();
+		repository.getLancamentosByUsuarioAndDataLancamentoBetween(usuario, data, fim );
+		
+		
+		return null;
+		
+	}
+	
 }
