@@ -8,8 +8,13 @@ import br.com.a4kontrol.model.Lancamento;
 import br.com.a4kontrol.model.Usuario;
 import br.com.a4kontrol.repository.LancamentoRepository;
 import br.com.a4kontrol.repository.UsuarioRepository;
+import br.com.a4kontrol.to.LancamentoTO;
 import br.com.a4kontrol.to.ResultBaseFactoryTO;
+import br.com.a4kontrol.util.DefaultResponseKeys;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,6 +23,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.standard.expression.MinusExpression;
 
 /**
  * @author geovan.goes
@@ -45,9 +51,10 @@ public class LancamentoService
 		
 		if (usuario != null)
 		{				
-			List<Lancamento> lancamentoByUsuario = repository.getLancamentoByUsuario(usuario);
+			List<LancamentoTO> lancamentos = new ArrayList<>();
+			repository.getLancamentoByUsuario(usuario).forEach(lancamento -> lancamentos.add(new LancamentoTO(lancamento)));
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("result", lancamentoByUsuario);
+			map.put(DefaultResponseKeys.LIST_LANCAMENTOS_KEY, lancamentos);
 			result.setSuccess(map);
 		}
 		else
@@ -147,16 +154,19 @@ public class LancamentoService
 	 * @param usuario
 	 * @param data
 	 */
-	private ResultBaseFactoryTO removerLancamentosDeUmDia(Usuario usuario, Date data)
+	public void removerLancamentosDeUmDia(Usuario usuario, Date data)
 	{
+		Date fim = data;
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(fim);
+		instance.add(Calendar.SECOND, -1);		
 		
+		List<Lancamento> lancamentosEncontrados = repository.getLancamentosByUsuarioAndDataLancamentoBetween(usuario, data, fim );
 		
-		Date fim = new Date();
-		repository.getLancamentosByUsuarioAndDataLancamentoBetween(usuario, data, fim );
-		
-		
-		return null;
-		
+		if (lancamentosEncontrados != null && lancamentosEncontrados.size() > 0)
+		{
+			lancamentosEncontrados.forEach(lancamento -> repository.delete(lancamento));
+		}
 	}
 	
 }

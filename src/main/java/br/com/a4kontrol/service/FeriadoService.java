@@ -3,16 +3,19 @@
  */
 package br.com.a4kontrol.service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import br.com.a4kontrol.authentication.util.SessionUtil;
 import br.com.a4kontrol.model.Feriado;
 import br.com.a4kontrol.model.Usuario;
 import br.com.a4kontrol.repository.FeriadoRepository;
+import br.com.a4kontrol.to.FeriadoTO;
 import br.com.a4kontrol.to.ResultBaseFactoryTO;
+import br.com.a4kontrol.util.DefaultResponseKeys;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,12 +62,11 @@ public class FeriadoService
 			boolean feriadoJaExiste = validarExistenciaDoFeriadoParaUsuario(usuario, data);
 			if (!feriadoJaExiste)
 			{
-				
-				//removerLancamentosDeUmDia(usuario, data);
+				lancamentoService.removerLancamentosDeUmDia(usuario, data);
 				
 				Feriado feriado = new Feriado(data, usuario);
 				repository.save(feriado);
-				
+								
 				Map<String, Object> result = new HashMap<String, Object>();
 				resultBaseFactoryTO.setSuccess(result);
 			}
@@ -107,9 +109,10 @@ public class FeriadoService
 		
 		if (usuario != null)
 		{
-			List<Feriado> feriadosByUsuario = repository.getFeriadosByUsuario(usuario);
 			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("result", feriadosByUsuario);
+			List<FeriadoTO> feriados = new ArrayList<>();
+			repository.getFeriadosByUsuario(usuario).forEach(feriado -> feriados.add(new FeriadoTO(feriado)));
+			result.put(DefaultResponseKeys.LIST_FERIADOS_KEY, feriados);
 			resultBaseFactoryTO.setSuccess(result);
 		}
 		else

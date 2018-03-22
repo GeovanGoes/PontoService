@@ -6,7 +6,7 @@ import java.util.Map;
 
 /***
  * 
- * @author geovan.goes Classe responsável por padronizar a comunicação entre as classes de Service, Controller, MVCPortlet e JSPs
+ * @author geovan.goes Classe responsável por padronizar a comunicação
  * 
  */
 public class ResultBaseFactoryTO implements Serializable
