@@ -47,6 +47,12 @@ public class LancamentosController
 		return lancamentoService.inserir(data);
 	}
 	
+	/***
+	 * 
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE)
 	public ResultBaseFactoryTO removerLancamento(@DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date data)
 	{
 		return lancamentoService.removerLancamento(data);
