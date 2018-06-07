@@ -6,6 +6,9 @@ package br.com.a4kontrol;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.util.Iterator;
+
 import br.com.a4kontrol.controller.UsuarioController;
 import br.com.a4kontrol.model.Usuario;
 import br.com.a4kontrol.service.UsuarioService;
@@ -41,7 +44,7 @@ public class UsuarioTest
 	UsuarioService service;
 	
 	@Test
-	public void inserir()
+	public void deveInserirUmNovoUsuario()
 	{
 		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
 		assertNotNull(result);
@@ -49,7 +52,19 @@ public class UsuarioTest
 	}
 	
 	@Test
-	public void buscar()
+	public void naoDevePermitirInsercaoDeDoisUsuarioComMesmoNome()
+	{
+		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
+		assertNotNull(result);
+		assertEquals(true, result.isSuccess());
+		
+		result = controller.inserirUsuario(NOME_USUARIO);
+		assertNotNull(result);
+		assertEquals(false, result.isSuccess());
+	}
+	
+	@Test
+	public void deveBuscarUmUsuarioPeloNome()
 	{
 		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
 		assertNotNull(result);
@@ -60,7 +75,7 @@ public class UsuarioTest
 	}
 	
 	@Test
-	public void atualizar()
+	public void deveAtualizarUmUsuario()
 	{
 		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
 		assertNotNull(result);
@@ -77,7 +92,7 @@ public class UsuarioTest
 	}
 	
 	@Test
-	public void deletar()
+	public void deveDeletarUmUsuario()
 	{
 		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
 		assertNotNull(result);
@@ -90,5 +105,33 @@ public class UsuarioTest
 		
 		usuario = service.getUsuario(NOME_USUARIO);
 		assertNull(usuario);
+	}
+	
+	@Test
+	public void devListarOsUsuarios()
+	{
+		ResultBaseFactoryTO result = controller.inserirUsuario(NOME_USUARIO);
+		assertNotNull(result);
+		assertEquals(true, result.isSuccess());
+		
+		ResultBaseFactoryTO listar = controller.listar();
+		assertNotNull(listar);
+		assertEquals(true, listar.isSuccess());
+		
+		Object objectFromService = listar.getResult().get("users");
+		assertNotNull(objectFromService);
+		
+		@SuppressWarnings("unchecked")
+		Iterable<Usuario> iterable = (Iterable<Usuario>) objectFromService; 
+		
+		Iterator<Usuario> iterator = iterable.iterator();
+		boolean achei = false;
+		while (iterator.hasNext())
+		{
+			if (iterator.next().getUserName().equals(NOME_USUARIO))
+				achei = true;
+		}
+		
+		assertEquals(true, achei);
 	}
 }
