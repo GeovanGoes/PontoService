@@ -5,6 +5,7 @@ package br.com.a4kontrol.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import br.com.a4kontrol.model.Usuario;
 import br.com.a4kontrol.repository.UsuarioRepository;
@@ -44,9 +45,9 @@ public class UsuarioService
 	 * @param id
 	 * @return
 	 */
-	public Usuario getUsuario(long id)
+	public Optional<Usuario> getUsuario(long id)
 	{
-		return repository.findOne(id);
+		return repository.findById(id);
 	}
 	
 	/***
@@ -113,5 +114,13 @@ public class UsuarioService
 	public Usuario update(Usuario usuario)
 	{
 		return repository.save(usuario);
+	}
+
+	/**
+	 * @param usuario
+	 */
+	public void deletar(Usuario usuario)
+	{
+		repository.delete(usuario);
 	}
 }
