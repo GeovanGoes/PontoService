@@ -1,5 +1,5 @@
 /**
- * 
+ * essa e a correcao do bug
  */
 package br.com.a4kontrol.util;
 
